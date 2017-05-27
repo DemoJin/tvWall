@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>66集团会员服务部</title>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="lib/html5shiv/html5shiv.js"></script>
+    <![endif]-->
+    <script src="libs/prefixfree/prefixfree.min.js"></script>
+    <script src="libs/vue/vue.js"></script>
+    <script src="libs/echarts/echarts.min.js"></script>
+    <script src="libs/common.js"></script>
+    <link rel="stylesheet" href="css/common.css">
+
+    <script>
+      $(function(){
+
+        var vm = new Vue({
+           el: '.card_queue',
+           data: ''
+        });
+           
+        function getTableData(url,id,fn){
+          $('.card table').addClass('movePage');
+          $('aside li span').addClass('fadeIn');
+          $.ajax({
+              url:url,
+              type:'GET',
+              cache: false,
+              dataType:'json',
+              success:function(data){
+          
+                vm.$data={
+                  thead:data.datas[0].thead,
+                  tr:data.datas[0].tr
+                };
+                if (data.waitCount >= 5) {
+                  setTimeout(function(){
+                    $('.card_queue th:last-child').addClass('active');
+                  },0);
+                }else{
+
+                  $('.card_queue th:last-child').removeClass('active');
+                };
+                fn&&fn(data);
+                setTimeout(function(){
+                $('.card table td').addClass('fadeIn');
+                },0);
+
+              },
+              error:function(){
+                  $('.error_tips').show().html('获取数据有误');
+              },
+              complete:function(){
+                setTimeout(function(){
+                    $('.card table').removeClass('movePage');
+                    // $('.card table td').removeClass('fadeIn');
+                    $('aside li span').removeClass('fadeIn');
+                },4000);
+              }
+          });
+        };
+
+        function splitStr(str){
+           var curStr=[];
+           str=str.toString();
+           for (var i = 0; i < str.length; i++) {
+               if (str[i]==':') {
+                   curStr.push('<b>'+str[i]+'</b>');
+               }else{
+                   curStr.push('<i>'+str[i]+'</i>');
+               }
+           }
+           return curStr;
+        };
+        
+        getTableData('json/table_trend.json','.card_queue',function(data){
+            $('.current_date span').text(data.trends);
+            $('.current_tel span').html(splitStr(data.callNums));
+            $('.queue_time span').html(splitStr(data.timeString));
+            $('.queue_num span').html(splitStr(data.waitCount));
+        });
+
+        setInterval(function(){
+          getTableData('json/table_trend.json','.card_queue',function(data){
+              $('.current_date span').text(data.trends);
+              $('.current_tel span').html(splitStr(data.callNums));
+              $('.queue_time span').html(splitStr(data.timeString));
+              $('.queue_num span').html(splitStr(data.waitCount));
+          });
+        },5000);
+
+      });
+ 
+    </script>
+</head>
+<body>
+    <div class="container">
+        
+        <aside>
+            <header>
+               <h3><i></i>集团会员服务部</h3>
+               <h4>电话服务部</h4>
+            </header>
+            <ul>
+                <li class="current_date">
+                    实时趋势
+                    <span></span>
+                </li>
+                <li class="current_tel">
+                    当日电话量
+                    <span></span>
+                </li>
+                <li class="queue_time">
+                    最长排队时间
+                    <span></span>
+                </li>
+                <li class="queue_num">
+                    排队个数
+                    <span></span>
+                </li>
+            </ul>
+        </aside>
+
+        <section>
+            <div class="card card_queue">
+                <h5>排队情况</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th v-for="item in thead">{{item.text}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in tr">
+                            <td v-for="td in item.td">{{td.text}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="error_tips"></p>
+
+            </div>
+            <div class="card card_chart">
+                <h5>日电话量趋势</h5>
+                <ul>
+                    <li class="res_num">人工请求量<span></span></li>
+                    <li class="answer_num">人工接听量<span></span></li>
+                    <li class="yestorday_res_num">昨日人工请求量<span></span></li>
+                    <li>单位 : 通</li>
+                </ul>
+                <div id="chart" style="min-width:400px;height:96%"></div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        $(function () {
+
+            var myChart = echarts.init(document.getElementById('chart'));
+            // $.getJSON('http://datas.org.cn/jsonp?filename=json/usdeur.json&callback=?', function (data) {
+            // $.getJSON('test.json', function (data) {
+            var option = {
+                title : {
+                    // text: '电话量趋势',
+                },
+                tooltip : {
+                    // trigger: 'axis'
+                },
+                grid: {
+                    top:'6%',
+                    bottom: '14%',
+                    containLabel: true
+                },
+                legend: {
+                  show:false,
+                    data:[],
+                    x:'right',
+                    textStyle: {
+                      color:'#fff'
+                    }
+                },
+                toolbox: {
+                    show : false,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                calculable : true,
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : [],
+                        axisLabel:{
+                            // interval: 2
+                        },
+                        axisLine:{
+                            lineStyle:{
+                                color:'#fff',
+                                width:1
+                            }
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value',
+                        splitLine:{show: false},
+                        axisLine:{
+                            lineStyle:{
+                                color:'#fff',
+                                width:1
+                            }
+                        }
+                    }
+                ],
+                series : []
+            };
+
+            function getTrendData(fn){
+                $.ajax({
+                    url:'json/echarts.json',
+                    type:'GET',
+                    cache: false,
+                    dataType:'json',
+                    beforeSend:function(){
+                        // myChart.showLoading({
+                        //     animation:true,
+                        //     text : 'loading',
+                        //     textStyle : {fontSize : 20}
+                        // }); 
+                        $('.card_chart li span').addClass('fadeIn');
+                    },
+                    success:function(data){
+                        
+                        var names=[];
+                        var series=[];
+                        var xAxis=[];
+                        var arrColor1 = ['#ffc600','#57ff00'];
+                        var arrColor2 = ['#ffc600','#57ff00'];
+                        // 57ff00 fe8574 fc600 01f9fc
+                        option.xAxis[0].data=data.xAxis[0].data;
+                        var nowDataLen = data["datas"][1].data.length;
+                        
+                        $.each( data["datas"], function(i, n){
+
+                          // console.log(data["datas"][1].data.length,'--------');
+                            names.push(n["name"]);
+                            if(n["name"]!="昨日人工请求量"){
+
+                                series.push({
+                                  name:n["name"],
+                                  type:'line',
+                                  smooth:'none',
+                                  symbol:'none',
+                                  z:(n["name"]=='人工接听量')?'3':'2',
+                                  data:n["data"],
+                                  itemStyle:{
+                                    normal: {
+                                      areaStyle:{
+                                        type: 'default',
+                                        color:  new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                           offset: 0, color: arrColor1[i] 
+                                         }, {
+                                           offset: 1, color: arrColor1[i]  
+                                         }], false),
+                                        opacity: 0.4,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                        shadowBlur: 10
+                                      },
+                                      lineStyle:{
+                                        color:'rgba(0,0,0,0)',
+                                         width:0,
+                                      }
+                                    }
+                                  },
+                                  
+                                  markPoint : {
+                                      itemStyle:{
+                                        normal: {
+                                          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            offset: 0, color: 'red' 
+                                          }, {
+                                            offset: 1, color: '#0036fc' 
+                                          }], false)
+                                        }
+                                      },  
+                                      data : [
+                                        {name : n["name"], value : n["data"][nowDataLen-1], xAxis: data.xAxis[0].data[nowDataLen-1], yAxis: n["data"][nowDataLen-1]}
+                                      ]
+                                  }
+                                });
+                            }else{
+                                series.push({
+                                  name:n["name"],
+                                  type:'line',
+                                  smooth:'none',
+                                  symbol:'none',
+                                  z:'1',
+                                  data:n["data"],
+                                  itemStyle:{
+                                    normal: {
+                                      areaStyle:{
+                                        type: 'default',
+                                        color:  new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                           // offset: 0, color: '#22c2fd' '01f9fc'
+                                           offset: 0, color: '#01f9fc'
+                                         }, {
+                                           // offset: 1, color: '#0036fc' 
+                                           offset: 1, color: '#01f9fc' 
+                                         }], false),
+                                        opacity: 0.4,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                        shadowBlur: 10
+                                      },
+                                      lineStyle:{
+                                        color:'rgba(0,0,0,0)',
+                                         width:0
+                                      }
+                                    }
+                                  }
+                                  
+                                });
+                            }
+
+                        });
+
+                        option["legend"]["data"] = names;
+                        option["series"]= series;
+
+                        // option.series[1].markPoint.data=[ {name : '人工请求量', value : dataToday[dataToday.length-1], xAxis: data.xAxis[0].data[dataToday.length-1], yAxis: dataToday[dataToday.length-1]}];
+             
+                         // myChart.hideLoading();
+                         myChart.setOption(option);
+
+                         fn&&fn(data);
+                    },
+                    error:function(){
+                        console.log('获取数据有误');
+                    },
+                    complete:function(){
+                      setTimeout(function(){
+                          $('.card_chart li span').removeClass('fadeIn');
+                      },4000);
+                    }
+                });
+            };
+
+            function splitStr(str){
+               var curStr=[];
+               str=str.toString();
+               for (var i = 0; i < str.length; i++) {
+                   curStr.push('<i>'+str[i]+'</i>');
+               }
+               return curStr;
+            };
+
+            getTrendData(function(data){
+                $('.res_num span').html(splitStr(data.resNum));
+                $('.answer_num span').html(splitStr(data.answerNum));
+                $('.yestorday_res_num span').html(splitStr(data.yesResNum));
+            });
+
+            setInterval(function(){
+              getTrendData(function(data){
+                  $('.res_num span').html(splitStr(data.resNum));
+                  $('.answer_num span').html(splitStr(data.answerNum));
+                  $('.yestorday_res_num span').html(splitStr(data.yesResNum));
+              });
+            },5000);
+
+            setTimeout(function(){
+              location.href='page_list.html';
+            },30000);
+        });
+    </script>
+
+</body>
+</html>

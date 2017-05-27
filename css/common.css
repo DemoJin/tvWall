@@ -1,0 +1,86 @@
+body, html, div, span, h1, h2, h3, h4, h5, h6, mark, ul, li, dl, dt, dd, table, tr, th, td, em, p, b, a { background: none; border: 0; font-size: 14px; font-style: inherit; font-weight: inherit; list-style: none; margin: 0; padding: 0; outline: 0; }
+
+/*html5*/
+article, aside, dialog, footer, header, section, footer, nav, figure, menu { display: block; }
+
+html, body { font-family: "Microsoft Yahei", sans-serif; color: #fff; transform: translateZ(0, 0, 0); }
+
+select, button, input, a, textarea { border: 0; border-radius: 0; outline: none; resize: none; cursor: pointer; background: none; -webkit-touch-callout: none; }
+
+a, a:active { color: #fff; text-decoration: none; }
+
+i { display: inline-block; }
+
+h3 { font-size: 28px; }
+
+h4 { font-size: 22px; }
+
+h5 { font-size: 20px; }
+
+.movePage { transform: translateX(0) !important; opacity: 1 !important; }
+
+.fadeIn { opacity: 1 !important; }
+
+.error_tips { display: none; color: #ccc; text-align: center; position: relative; top: -50%; }
+
+/*tel*/
+@keyframes move { 0% { transform: rotate(0deg); }
+  33% { transform: rotate(-8deg); opacity: 0.8; }
+  xx% { transform: rotate(8deg); }
+  100% { transform: rotate(0deg); } }
+/*button*/
+.btn { background: url(../img/btn_bg.png) no-repeat; background-size: 100%; text-align: center; }
+
+.bg_gray { background: #dcddde !important; color: #121111 !important; }
+
+.container { position: relative; transition: all .4s; background-size: 100% !important; overflow: hidden; padding-left: 21.2%; }
+.container aside { position: absolute; left: 0; height: 100%; background: #011a2b; width: 21.2%; min-width: 290px; }
+.container aside header { width: 100%; text-align: center; margin: 30px auto 50px; }
+.container aside header h3 { color: #ffc600; }
+.container aside header h3 i { width: 52px; height: 46px; background: url(../img/logo.png) no-repeat; vertical-align: middle; margin-right: 6px; background-size: 100% 100%;}
+.container aside ul { padding: 0 20px; }
+.container aside ul li { border-bottom: 1px solid #03416b; padding: 6% 20px; font-size: 16px; }
+.container aside ul li span { display: block; color: #00eeff; line-height: 32px; margin-top: 12px; font-size: 18px; letter-spacing: 1px; transition: all 1s; opacity: 0; }
+.container aside ul li span i { background: #00111c; display: inline-block; margin-right: 2%; font-style: normal; padding: 0 6px; /* height: 26px; */ font-size: 20px; border-radius: 4px; }
+.container aside ul li span b { margin-right: 2%; font-size: 20px; }
+.container section { width: 100%; height: 100%; position: relative; background: url(../img/wall_bg.jpg) no-repeat center center; background-size: 100% 100%; }
+.container section .card { width: 100%; height: 50%; }
+.container section .card h5 { padding: 1.5% 25px; }
+.container section .card h5:before { content: ''; width: 4px; height: 16px; display: inline-block; background: #00ffac; vertical-align: middle; margin-right: 6px; }
+.container section .card table { width: 100%; text-align: center; border-collapse: collapse; transition: all 1s; transform: translateX(100%);}
+.container section .card table thead { border-bottom: 1px solid #35c9b2; background: rgba(0, 0, 0, 0.2); }
+.container section .card table tr { line-height: 42px; }
+.container section .card table tr:nth-child(even) { background: rgba(0, 0, 0, 0.2); }
+.container section .card table tr:nth-child(odd) { background: rgba(0, 0, 0, 0.1); }
+.container section .card table td { opacity: 0; transition: all 1s; }
+.container section .card table th, .container section .card table td { width: 120px; }
+.container section .card_queue tbody tr:nth-child(1), .container section .card_queue tbody tr:nth-child(2) { color: #ffc600 !important; }
+.container section .card_queue th { position: relative; }
+.container section .card_queue th:last-child:before { content: ''; width: 15px; height: 14px; display: inline-block; vertical-align: inherit; margin-right: 4px; background: url(../img/tel_g.png) no-repeat; background-size: cover; }
+.container section .card_queue th:last-child.active { color: #ff0000 !important; }
+.container section .card_queue th:last-child.active:before { width: 16px; height: 16px; background: url(../img/tel_r.png) no-repeat; animation: move 1s infinite alternate ease-in-out; }
+.container section .card_chart { height: 48%; position: relative; top: 2%; border-top: 1px solid #03416b; }
+.container section .card_chart ul { text-align: center; position: relative; top: -54px; }
+.container section .card_chart ul li { display: inline-block; margin: 10px 5px; }
+.container section .card_chart ul li:before { content: ''; width: 12px; height: 12px; display: inline-block; margin-right: 6px; }
+.container section .card_chart ul li:nth-child(1):before { background: #ffde00; }
+.container section .card_chart ul li:nth-child(2):before { background: #57ff00; }
+.container section .card_chart ul li:nth-child(3):before { background: #01f9fc; }
+.container section .card_chart ul li span { margin-left: 8px; opacity: 0; }
+.container section .card_chart ul i { background: #00111c; display: inline-block; margin: 0 2px; font-style: normal; padding: 0 6px; /* height: 26px; */ font-size: 20px; border-radius: 4px; color: #00eeff; vertical-align: middle; }
+.container section .card_chart #chart { top: -54px; }
+.container section .card_situation tbody tr:nth-child(1) { color: #ffc600 !important; }
+.container section .card_situation tbody tr:nth-child(2) { color: #57ff00 !important; }
+.container section .card_situation tbody tr:nth-child(3) { color: #01c6ff !important; }
+.container section .card_overview { height: 48%; position: relative; top: 2%; border-top: 1px solid #03416b; }
+.container .main_list { width: 80%; margin: 0 auto; position: relative; z-index: 2; }
+.container .main_list li { width: 18%; margin: 6px .5%; display: inline-block; position: relative; }
+.container .main_list li img { width: 100%; cursor: pointer; transition: all .1s; }
+.container .main_list li:hover img { filtercard_chart: drop-shadow(5px 5px 10px #6B6B6B); }
+
+@media (max-width: 1360px) { table tr { line-height: 32px !important; }
+  aside span { letter-spacing: 1px !important; }
+  .card_overview { top: 4% !important; }
+  .card_chart ul { left: 6%; } }
+
+/*# sourceMappingURL=common.css.map */
