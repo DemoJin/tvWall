@@ -1,51 +1,40 @@
 /*
-*creat by jqc
+*creat by DemoJin
 */
 $(function(){
-	//获取当前高度
-	$('body,.container').height(document.documentElement.clientHeight);	
-
-	//展厅介绍
-	$('.introduce_btn').click(function(){
-		var dataHtml = '<div class="view_introduce"><p class="introduce_txt">一些文字介绍内容<br />内容</p></div>';
-		$('.container').addClass('bg_blur');
-		//弹窗
-		layer.open({
-		  type: 1,
-		  shade: false,
-		  title: false, //不显示标题
-		  skin: 'layui-layer-rim', //加上边框
-		  area: ['xx%', 'auto'], //宽高
-		  content: dataHtml,
-		  cancel:function(){
-		  	$('.container').removeClass('bg_blur');
-		  }
-		});
-	});
-
-	//图文点击
-	
-
+	changeHeight();
 });
-	
-
-//获取子窗口高度
-function curHeight(){
-	// var main = $(window.parent.document).find("iframe");
-	// var thisHeight = $(document).height();
-	// main.height(thisHeight);
-
-	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-	parent.layer.iframeAuto(index); //子窗口自适应高度
-};
 
 //自适应高度
 function changeHeight(){
 	$('body,.container').height(document.documentElement.clientHeight);	
 };
 
-window.onresize=function(){  
+window.onresize = function(){  
      changeHeight();  
 }; 
 
+function curData(){
+	var myDate = new Date();
+	myDate.getYear(); //获取当前年份(2位)
+	myDate.getFullYear(); //获取完整的年份(4位,1970-????)
+	myDate.getMonth(); //获取当前月份(0-11,0代表1月)
+	myDate.getDate(); //获取当前日(1-31)
+	myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+	myDate.getTime(); //获取当前时间(从1970.1.1开始的毫秒数)
+	myDate.getHours(); //获取当前小时数(0-23)
+	myDate.getMinutes(); //获取当前分钟数(0-59)
+	myDate.getSeconds(); //获取当前秒数(0-59)
+	myDate.getMilliseconds(); //获取当前毫秒数(0-999)
+	myDate.toLocaleDateString(); //获取当前日期
+	myDate.toLocaleTimeString(); //获取当前时间
+	myDate.toLocaleString( ); //获取日期与时间
 
+	var resultDate = myDate.getFullYear() + '-' + FormatDate(myDate.getMonth() + 1) + '-' + myDate.getDate() + ' ' + FormatDate(myDate.getHours()) + ':' + FormatDate(myDate.getMinutes()) + ':' + FormatDate(myDate.getSeconds());
+
+	return resultDate;
+}
+
+function FormatDate(curD){
+	return (curD < 10 ? '0' + curD : curD);
+}
