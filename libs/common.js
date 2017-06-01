@@ -30,7 +30,7 @@ function curData(){
 	myDate.toLocaleTimeString(); //获取当前时间
 	myDate.toLocaleString( ); //获取日期与时间
 
-	var resultDate = myDate.getFullYear() + '-' + FormatDate(myDate.getMonth() + 1) + '-' + myDate.getDate() + ' ' + FormatDate(myDate.getHours()) + ':' + FormatDate(myDate.getMinutes()) + ':' + FormatDate(myDate.getSeconds());
+	var resultDate = myDate.getFullYear() + '-' + FormatDate(myDate.getMonth() + 1) + '-' + FormatDate(myDate.getDate()) + ' ' + FormatDate(myDate.getHours()) + ':' + FormatDate(myDate.getMinutes()) + ':' + FormatDate(myDate.getSeconds());
 
 	return resultDate;
 }
