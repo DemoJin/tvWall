@@ -66,9 +66,10 @@ h5 { font-size: 20px; }
 .container section .card_chart ul li:nth-child(1):before { background: #ffde00; }
 .container section .card_chart ul li:nth-child(2):before { background: #57ff00; }
 .container section .card_chart ul li:nth-child(3):before { background: #01f9fc; }
-.container section .card_chart ul li span { margin-left: 8px; opacity: 0; }
+.container section .card_chart ul li span { margin-left: 8px; opacity: 0; transition: all 1s; opacity: 0;}
 .container section .card_chart ul i { background: #00111c; display: inline-block; margin: 0 2px; font-style: normal; padding: 0 6px; /* height: 26px; */ font-size: 20px; border-radius: 4px; color: #00eeff; vertical-align: middle; }
 .container section .card_chart #chart { top: -54px; }
+.container section .card_chart #chart>div { margin: 0 auto !important; }
 .container section .card_situation tbody tr:nth-child(1) { color: #ffc600 !important; }
 .container section .card_situation tbody tr:nth-child(2) { color: #57ff00 !important; }
 .container section .card_situation tbody tr:nth-child(3) { color: #01c6ff !important; }
